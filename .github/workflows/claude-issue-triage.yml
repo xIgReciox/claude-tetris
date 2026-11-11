@@ -58,6 +58,15 @@ jobs:
             4. Escribe el diagnóstico en español en el archivo `triage-diagnosis.md` (raíz del workspace)
                con exactamente esta estructura:
 
+               El contenido debe ser Markdown válido para GitHub (GitHub Flavored Markdown), de modo que
+               se renderice correctamente como comentario del issue:
+               - Encabezados con `##`/`###`, negritas con `**`, listas con `-` o `1.`.
+               - Rutas, funciones y referencias `archivo:línea` entre backticks simples.
+               - Fragmentos de código en bloques con triple backtick e indicando el lenguaje (```js, ```html, ```css).
+               - Deja una línea en blanco entre párrafos, encabezados, listas y bloques de código.
+               - Puedes usar tablas GFM o listas de tareas (`- [ ]`) si aportan claridad.
+               - No uses HTML salvo el marcador `<!-- claude-issue-triage -->` de la primera línea.
+
                <!-- claude-issue-triage -->
                ## 🔍 Diagnóstico automático
 
