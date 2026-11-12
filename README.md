@@ -87,6 +87,19 @@ Después abre `http://localhost:8000` en el navegador.
 | `Espacio` | Hard drop (caída instantánea)     |
 | `P`       | Pausar / reanudar                 |
 
+### Skins visuales
+
+El selector **Skin** (esquina superior izquierda, junto al toggle de modo claro/oscuro) cambia la apariencia completa del juego sin recargar. La elección se guarda en `localStorage` (clave `skin`).
+
+| Skin         | Descripción                                                                  |
+| ------------ | ---------------------------------------------------------------------------- |
+| **Retro**    | Bloques cuadrados de colores planos (por defecto); respeta el modo claro/oscuro |
+| **Neon**     | Fondo negro y bloques con brillo (`shadowBlur`), incluso en modo claro       |
+| **Pastel**   | Colores suaves y bloques con esquinas redondeadas                            |
+| **Pixel art**| Bloques con textura de píxeles (bordes de luz/sombra y damero)               |
+
+Cada skin vive en el objeto `SKINS` de `game.js` (paletas, función `drawBlock` y brillo del aro de la Tuerca); el fondo de los canvas se controla desde `style.css` con el atributo `data-skin` de `<html>`.
+
 ---
 
 ## Cómo funciona
