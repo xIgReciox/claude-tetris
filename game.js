@@ -539,12 +539,17 @@ saveRecordBtn.addEventListener('click', () => { commitRecord(nameInput.value); s
 
 clearRecordsBtn.addEventListener('click', () => {
   clearRecordsBtn.blur();
-  if (!confirm('¿Borrar todos los records guardados?')) return;
-  try { localStorage.removeItem(RECORDS_KEY); } catch (e) { /* ignorar */ }
-  highlightIdx = -1;
-  if (pendingRecord) { pendingRecord = null; recordSaved = true; }
-  renderRecords();
-  if (gameOver) showGameOverRecords(emptyRecords());
+  // Pausar mientras se muestra el confirm para no desincronizar el bucle
+  const autoPaused = !paused && !gameOver;
+  if (autoPaused) togglePause();
+  if (confirm('¿Borrar todos los records guardados?')) {
+    try { localStorage.removeItem(RECORDS_KEY); } catch (e) { /* ignorar */ }
+    highlightIdx = -1;
+    renderRecords();
+    // La partida pendiente de nombre se conserva y se guardará como único record
+    if (gameOver) showGameOverRecords(emptyRecords());
+  }
+  if (autoPaused) togglePause();
 });
 
 themeToggle.addEventListener('change', () => {
