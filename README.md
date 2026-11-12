@@ -43,6 +43,7 @@ Es una versión jugable del Tetris clásico con todas las mecánicas que esperar
 - **Sistema de puntuación** clásico de Tetris (100 / 300 / 500 / 800 multiplicado por nivel).
 - **Niveles** que aumentan cada 10 líneas y aceleran la caída.
 - **Pausa** y **Game Over** con opción de reinicio.
+- **Tabla de records local**: el top 5 de puntuaciones se guarda en `localStorage` (clave `tetrisRecords`, entradas `{name, score, lines, combo, date}`). Se muestra siempre en el panel lateral y en el overlay de Game Over; si tu puntuación entra en el top 5, introduces tu nombre (máx. 12 caracteres, `Enter` confirma) y tu entrada aparece resaltada. Si reinicias sin confirmar, se guarda como "Anónimo". El panel también muestra el **mejor combo** (fijaciones consecutivas que limpian al menos una línea) y las **líneas máximas** históricas, y el botón **Borrar records** (con confirmación) lo borra todo.
 
 ---
 

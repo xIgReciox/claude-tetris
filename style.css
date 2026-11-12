@@ -198,6 +198,126 @@ kbd {
   background: var(--accent-hover);
 }
 
+/* ---- Records ---- */
+.records-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.records-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+  padding: 1px 4px;
+  border-radius: 3px;
+}
+
+.records-list .rec-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.records-list .rec-score {
+  font-family: 'Courier New', Courier, monospace;
+  color: var(--accent);
+}
+
+.records-list li.highlight {
+  background: var(--kbd-bg);
+  border: 1px solid var(--accent);
+  color: var(--text);
+}
+
+.records-empty {
+  font-style: italic;
+}
+
+.records-extra {
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.records-extra b {
+  color: var(--accent);
+}
+
+#clear-records-btn {
+  background: var(--kbd-bg);
+  color: var(--kbd-text);
+  border: 1px solid var(--kbd-border);
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+#clear-records-btn:hover {
+  border-color: var(--danger);
+  color: var(--danger);
+}
+
+#gameover-records {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  width: 220px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+#gameover-records.hidden,
+#name-entry.hidden {
+  display: none;
+}
+
+#gameover-records .records-list {
+  width: 100%;
+}
+
+#name-entry {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+}
+
+.name-row {
+  display: flex;
+  gap: 6px;
+}
+
+#name-input {
+  width: 120px;
+  background: var(--canvas-bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 4px 6px;
+  font-size: 13px;
+  user-select: text;
+}
+
+#name-input:focus {
+  outline: 2px solid var(--accent);
+}
+
+#save-record-btn {
+  background: var(--accent);
+  color: var(--accent-contrast);
+  border: none;
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
 /* ---- Toggle de tema ---- */
 .theme-toggle {
   position: absolute;
