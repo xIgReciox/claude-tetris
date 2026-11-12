@@ -19,7 +19,8 @@ Three files: `index.html` (DOM + canvases), `style.css`, and `game.js` (all logi
 - Flow: `loop` (rAF, accumulates `dropAccum` against `dropInterval`) → `lockPiece` → `merge` → `clearLines` → `spawn` (promotes `next`, calls `endGame` if the new piece collides). Keyboard handler is a single `keydown` listener at the bottom.
 - Pause/game-over both stop the loop via `cancelAnimationFrame` and reuse the same `#overlay` element; unpausing resets `lastTime` and calls `loop` directly.
 - Rotation is `rotateCW` plus simple horizontal kicks `[0,-1,1,-2,2]` in `tryRotate` (not SRS). There is no 7-bag; `randomPiece` is uniform random.
-- Scoring/speed: `LINE_SCORES × level`, hard drop +2/cell, soft drop +1/cell, level = `floor(lines/10)+1`, `dropInterval = max(100, 1000 − (level−1)·90)` (the 1000 is hardcoded in both `init` and `clearLines`).
+- Scoring/speed: `LINE_SCORES × level`, hard drop +2/cell, soft drop +1/cell, level = `max(baseLevel, floor(lines/10)+1)` (`levelForLines`; `baseLevel` = `startLevel` captured in `init`, persisted in localStorage `startLevel`, chosen in the pause menu), `dropInterval = dropIntervalFor(level) = max(100, 1000 − (level−1)·90)`.
+- Pause (`P`/`Esc`) shows a menu (`#pause-menu`: Reanudar, Reiniciar, Ver controles, Nivel inicial) inside `#overlay`; game over hides it and shows `#restart-btn`. Keys held/pressed while paused are in `blockedKeys` until their keyup. The pause-menu controls list duplicates the others too.
 
 ## Gotchas
 
