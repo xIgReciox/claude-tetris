@@ -13,6 +13,7 @@ const COLORS = [
   '#e57373', // Z - red
   '#90caf9', // J - azul pálido
   '#ffb74d', // L - orange
+  '#b0bec5', // Tuerca - gris metálico
 ];
 
 // Colores más saturados para el tema claro
@@ -25,6 +26,7 @@ const COLORS_LIGHT = [
   '#e53935', // Z
   '#1e88e5', // J
   '#fb8c00', // L
+  '#607d8b', // Tuerca
 ];
 
 const PIECES = [
@@ -36,7 +38,10 @@ const PIECES = [
   [[5,5,0],[0,5,5],[0,0,0]],                  // Z
   [[6,0,0],[6,6,6],[0,0,0]],                  // J
   [[0,0,7],[7,7,7],[0,0,0]],                  // L
+  [[8,8,8],[8,0,8],[8,8,8]],                  // Tuerca (hueco central)
 ];
+
+const NUT = 8;
 
 const LINE_SCORES = [0, 100, 300, 500, 800];
 
@@ -63,7 +68,7 @@ function createBoard() {
 }
 
 function randomPiece() {
-  const type = Math.floor(Math.random() * 7) + 1;
+  const type = Math.floor(Math.random() * (PIECES.length - 1)) + 1;
   const shape = PIECES[type].map(row => [...row]);
   return { type, shape, x: Math.floor(COLS / 2) - Math.floor(shape[0].length / 2), y: 0 };
 }
@@ -184,6 +189,17 @@ function drawBlock(context, x, y, colorIndex, size, alpha) {
   context.globalAlpha = 1;
 }
 
+// Aro que marca el hueco central de la tuerca (cx, cy en coordenadas de celda)
+function drawNutRing(context, cx, cy, size, alpha) {
+  context.globalAlpha = alpha ?? 1;
+  context.strokeStyle = pieceColors[NUT];
+  context.lineWidth = size * 0.15;
+  context.beginPath();
+  context.arc((cx + 0.5) * size, (cy + 0.5) * size, size * 0.32, 0, Math.PI * 2);
+  context.stroke();
+  context.globalAlpha = 1;
+}
+
 function drawGrid() {
   ctx.strokeStyle = gridColor;
   ctx.lineWidth = 0.5;
@@ -210,17 +226,26 @@ function draw() {
     for (let c = 0; c < COLS; c++)
       drawBlock(ctx, c, r, board[r][c], BLOCK);
 
+  // aro de las tuercas ya fijadas: celda vacía rodeada por 4 bloques de tuerca
+  for (let r = 1; r < ROWS - 1; r++)
+    for (let c = 1; c < COLS - 1; c++)
+      if (!board[r][c] && board[r - 1][c] === NUT && board[r + 1][c] === NUT &&
+          board[r][c - 1] === NUT && board[r][c + 1] === NUT)
+        drawNutRing(ctx, c, r, BLOCK);
+
   // ghost
   const gy = ghostY();
   for (let r = 0; r < current.shape.length; r++)
     for (let c = 0; c < current.shape[r].length; c++)
       if (current.shape[r][c])
         drawBlock(ctx, current.x + c, gy + r, current.shape[r][c], BLOCK, 0.2);
+  if (current.type === NUT) drawNutRing(ctx, current.x + 1, gy + 1, BLOCK, 0.2);
 
   // current piece
   for (let r = 0; r < current.shape.length; r++)
     for (let c = 0; c < current.shape[r].length; c++)
       drawBlock(ctx, current.x + c, current.y + r, current.shape[r][c], BLOCK);
+  if (current.type === NUT) drawNutRing(ctx, current.x + 1, current.y + 1, BLOCK);
 }
 
 function drawNext() {
@@ -232,6 +257,7 @@ function drawNext() {
   for (let r = 0; r < shape.length; r++)
     for (let c = 0; c < shape[r].length; c++)
       drawBlock(nextCtx, offX + c, offY + r, shape[r][c], NB);
+  if (next.type === NUT) drawNutRing(nextCtx, offX + 1, offY + 1, NB);
 }
 
 function applyTheme(theme) {

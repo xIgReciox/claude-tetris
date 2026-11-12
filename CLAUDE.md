@@ -15,7 +15,7 @@ Open `index.html` directly, or serve statically (`python -m http.server 8000`, t
 Three files: `index.html` (DOM + canvases), `style.css`, and `game.js` (all logic, one global script with `'use strict'`).
 
 - `game.js` uses module-level mutable globals (`board`, `current`, `next`, `score`, `lines`, `level`, `paused`, `gameOver`, `dropInterval`, `animId`, …) declared on one line and (re)initialized in `init()`. Restart calls `init()` again, which cancels the previous animation frame.
-- Board is a `ROWS×COLS` matrix; cell value `0` = empty, `1–7` = index into both `COLORS` and `PIECES` (the same index identifies the piece type, so the shape matrices embed their own color index).
+- Board is a `ROWS×COLS` matrix; cell value `0` = empty, `1–8` = index into both `COLORS` and `PIECES` (the same index identifies the piece type, so the shape matrices embed their own color index). Piece 8 (`NUT`, the "Tuerca") is a 3×3 ring with an empty center; `drawNutRing` draws a circle over the hole (current piece, ghost, next preview, and locked nuts detected by 4 `NUT` orthogonal neighbors).
 - Flow: `loop` (rAF, accumulates `dropAccum` against `dropInterval`) → `lockPiece` → `merge` → `clearLines` → `spawn` (promotes `next`, calls `endGame` if the new piece collides). Keyboard handler is a single `keydown` listener at the bottom.
 - Pause/game-over both stop the loop via `cancelAnimationFrame` and reuse the same `#overlay` element; unpausing resets `lastTime` and calls `loop` directly.
 - Rotation is `rotateCW` plus simple horizontal kicks `[0,-1,1,-2,2]` in `tryRotate` (not SRS). There is no 7-bag; `randomPiece` is uniform random.
